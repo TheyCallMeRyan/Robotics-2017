@@ -14,7 +14,7 @@ public class DriveSubsystem extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -26,6 +26,12 @@ public class DriveSubsystem extends Subsystem {
     public CANTalon backRight;
     public RobotDrive robotDrive;
     
+    private double p = .1;
+    private double i = 0;
+    private double d = .05;
+    private double f = 0;
+    private double ramprate = 48;
+    
     public DriveSubsystem(){
     	frontLeft=new CANTalon(RobotMap.FRONT_LEFT);
     	frontRight=new CANTalon(RobotMap.FRONT_RIGHT);
@@ -36,14 +42,29 @@ public class DriveSubsystem extends Subsystem {
     	robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
 		robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
 		
-		/*frontLeft.setPID(0, 0, 0, 0, 0, 0, 0);
-		backLeft.setPID(0, 0, 0, 0, 0, 0, 0);
-		frontRight.setPID(0, 0, 0, 0, 0, 0, 0);
-		backRight.setPID(0, 0, 0, 0, 0, 0, 0);*/
+		frontLeft.setPID(p, i, d, f, 0, ramprate, 0);
+		backLeft.setPID(p, i, d, f, 0, ramprate, 0);
+		frontRight.setPID(p, i, d, f, 0, ramprate, 0);
+		backRight.setPID(p, i, d, f, 0, ramprate, 0);
     }
     
     public void setMotors(double x, double y, double z){
     	robotDrive.mecanumDrive_Cartesian(x, y, z, 0);
+    }
+    
+    public int getEncPosition(int num){
+    	switch(num){
+    	case RobotMap.FRONT_LEFT:
+    		return frontLeft.getEncPosition();
+    	case RobotMap.FRONT_RIGHT:
+    		return frontRight.getEncPosition();
+    	case RobotMap.BACK_LEFT:
+    		return backLeft.getEncPosition();
+    	case RobotMap.BACK_RIGHT:
+    		return backRight.getEncPosition();
+    	default:
+    		return 0;
+    	}
     }
     
 }

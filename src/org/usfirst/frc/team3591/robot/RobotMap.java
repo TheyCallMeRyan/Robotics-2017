@@ -6,6 +6,7 @@ package org.usfirst.frc.team3591.robot;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
 public class RobotMap {
 	public static final int FRONT_LEFT=11;
 	public static final int FRONT_RIGHT=21;
@@ -15,7 +16,10 @@ public class RobotMap {
 	public static final int ROPE_LEFT=31;
 	public static final int ROPE_RIGHT=32;
 	
-	public static final int ROPE_BUTTON=1;
+	public static final int ROPE_UP_BUTTON = 1;
+	public static final int ROPE_DOWN_BUTTON = 2;
 	
-	public static final int DRIVESTICK_ID=0;
+	public static final int DISTANCE_SENSOR_ID = 0;
+	
+	public static final int DRIVESTICK_ID = 0;
 }

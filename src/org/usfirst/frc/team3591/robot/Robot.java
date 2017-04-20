@@ -25,10 +25,8 @@ public class Robot extends IterativeRobot {
 	
 	public Command driveCommand;
 	public static OI oi;
-
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
-
+	SendableChooser autoChooser;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -36,9 +34,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		driveCommand=new DriveCommand();
+		new MonitorCommand().start();
 		oi = new OI();
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		//autoChooser = new SendableChooser();
+		//autoChooser.addObject("LEFT", new Print(1));
+		//autoChooser.addObject("MIDDLE", new Print(2));
+		//autoChooser.addObject("RIGHT", new Print(3));
+		//SmartDashboard.putData("Autonomous do-dads", autoChooser);
 	}
 
 	/**
@@ -69,8 +72,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
+		autoChooser.getSelected();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -79,8 +81,11 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		/*try {
+			new AutonomousCommandGroup();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
 	}
 
 	/**
@@ -97,8 +102,6 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
 		driveCommand.start();
 	}
 
